@@ -57,7 +57,6 @@ namespace Frontend
         }
         public async void DeleteGame(int Id)
         {
-            bool deleted = false;
             using (HttpClient httpClient = new HttpClient())
             {
                 string DeleteGameUrl = BaseUrl + "DeleteGame/" + Id;
