@@ -40,6 +40,7 @@ namespace Backend
             
             //Add service to save and get image. 
             //services.AddSingleton<IImageRepository, ImageRepository>();
+            services.AddSingleton<IImageRepository, ImageRepository>();
             
             services.AddSwaggerGen();
         }

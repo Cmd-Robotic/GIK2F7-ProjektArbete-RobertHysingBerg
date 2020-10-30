@@ -20,7 +20,7 @@ namespace Backend.Controllers
     public class GameInfoController : ControllerBase
     {
 
-        private readonly IGameRepository gameRepository = new GameRepository();
+        private readonly IGameRepository gameRepository;
         private readonly IImageRepository imageRepository;
         private readonly IWebHostEnvironment env;
         
@@ -29,10 +29,11 @@ namespace Backend.Controllers
         * to inject the repositories we need. 
         * just like we inject IWebHostEnvironment IHostEnv in the constructor right now.
         */
-        public GameInfoController(IWebHostEnvironment IHostEnv)
+        public GameInfoController(IWebHostEnvironment IHostEnv, IGameRepository gameRepository, IImageRepository imageRepository)
         {
             env = IHostEnv;
-            imageRepository = new ImageRepository(gameRepository, IHostEnv);
+            this.gameRepository = gameRepository;
+            this.imageRepository = imageRepository;
         }
 
         //IGameRepository is a repo to handle game information,
@@ -66,9 +67,11 @@ namespace Backend.Controllers
         //IImageRepository is a repo to handle upload and fetching
         //image from the api.
         [HttpGet("GetGameImage/{Id}")]
-        public async Task<ImageInfo> GetImage(int Id)
-        {
-            return await imageRepository.GetImage(Id);
+        public async Task<IActionResult> GetImage(int Id)
+        {   //Efter att sett de andra presentera förstår jag nu vad ImageInfo faktiskt gör, detta är så mycket enklare än jag trodde.
+            //Even clearer now that I look at the comments below...
+            ImageInfo PathAndType = await imageRepository.GetImage(Id);
+            return PhysicalFile(PathAndType.ImgSrc, PathAndType.ImgType);
         }
         [HttpPost("SaveImage/{Id}")]
         public async Task<GameInfo> SaveImage(int Id, IFormFile Image)

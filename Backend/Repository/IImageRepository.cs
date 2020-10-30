@@ -15,7 +15,6 @@ namespace Backend.Repository
 
     public class ImageInfo 
     {
-        public byte[] Img { get; set; }
         public string ImgSrc { get; set; }
         public string ImgType { get; set; }
     }

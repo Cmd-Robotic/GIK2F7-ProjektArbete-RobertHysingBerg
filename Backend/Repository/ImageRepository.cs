@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Backend.Models;
-using System.Drawing;
 
 namespace Backend.Repository
 {
@@ -47,13 +46,7 @@ namespace Backend.Repository
                 var fileType = ext.Replace(".", "");
                 if(MimeTypes.ContainsKey(fileType)) 
                 {
-                    byte[] ByteImage;
-                    using (var FileStream = new FileStream(imgSrc, FileMode.Open))
-                    {
-                        ByteImage = new byte[FileStream.Length];
-                        await FileStream.ReadAsync(ByteImage, 0, (int)FileStream.Length);
-                    }
-                    return new ImageInfo { ImgSrc = imgSrc, ImgType = MimeTypes[fileType], Img = ByteImage };
+                    return new ImageInfo { ImgSrc = imgSrc, ImgType = MimeTypes[fileType] };
                 }
                 else 
                 {
