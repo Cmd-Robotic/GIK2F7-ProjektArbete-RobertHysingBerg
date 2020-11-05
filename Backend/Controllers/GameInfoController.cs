@@ -70,11 +70,23 @@ namespace Backend.Controllers
         public async Task<IActionResult> GetImage(int Id)
         {   //Efter att sett de andra presentera förstår jag nu vad ImageInfo faktiskt gör, detta är så mycket enklare än jag trodde.
             //Even clearer now that I look at the comments below...
+            GameInfo game = await gameRepository.Get(Id);
+            if (game == null)
+            {
+                throw new ArgumentException("Felaktigt id");
+            }
             ImageInfo PathAndType = await imageRepository.GetImage(Id);
-            return PhysicalFile(PathAndType.ImgSrc, PathAndType.ImgType);
+            if (System.IO.File.Exists(PathAndType.ImgSrc))
+            {
+                return PhysicalFile(PathAndType.ImgSrc, PathAndType.ImgType);
+            }
+            else
+            {
+                throw new FileNotFoundException();
+            }
         }
         [HttpPost("SaveImage/{Id}")]
-        public async Task<GameInfo> SaveImage(int Id, IFormFile Image)
+        public async Task<GameInfo> SaveImage(int Id,[FromForm] IFormFile Image)
         {
             return await imageRepository.SaveImage(Id, Image);
         }

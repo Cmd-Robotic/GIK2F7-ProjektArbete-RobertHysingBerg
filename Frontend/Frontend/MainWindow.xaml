@@ -7,7 +7,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <Grid x:Name="Main_Info" Visibility="Visible">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="Main_Info" Visibility="Visible" Grid.ColumnSpan="2">
             <TextBlock x:Name="Error_Message" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="550,29,0,0" Width="220" Height="64" TextWrapping="Wrap" TextAlignment="Center"/>
             <GroupBox Width="220" Height="400" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0" Header="Games">
                 <ListBox x:Name="Game_List" Width="200" Height="372" VerticalAlignment="Center" HorizontalAlignment="Center" SelectionChanged="Game_List_SelectionChanged"/>
@@ -24,30 +28,44 @@
                     <TextBlock x:Name="Selected_Game_Game_Description" Text="No game selected" Margin="6,0,6,0" TextWrapping="Wrap"/>
                 </StackPanel>
             </GroupBox>
-            <Grid x:Name="Queries" Width="160" Height="192" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="580,0,0,0" Visibility="Visible">
-                <!--<Button x:Name="Upload_Game_Image_Button" Content="Upload a game's box art" Click="Upload_Game_Image_Button_Click" Width="160" Height="32" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>-->
-                <Button x:Name="Load_All_Games_Button" Content="Load all games" Click="Load_All_Games_Button_Click" Width="160" Height="32" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <Button x:Name="Update_Game_Button" Content="Update a game's info" Click="Update_Game_Button_Click" Width="160" Height="32" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <Button x:Name="Add_Game_Button" Content="Add a game" Click="Add_Game_Button_Click" Width="160" Height="32" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <Button x:Name="Delete_Game_Button" Content="Delete a game" Click="Delete_Game_Button_Click" Width="160" Height="32" Margin="0,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-                <Button x:Name="Detailed_Game_Info_Button" Content="More detailed game info" Click="Detailed_Game_Info_Button_Click" Width="160" Height="32" Margin="0,160,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Grid x:Name="Queries" Width="160" Height="232" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="580,60,0,0" Visibility="Visible">
+                <Button x:Name="Load_All_Games_Button" Content="Reload Games" Click="Load_All_Games_Button_Click" Width="160" Height="32" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <Button x:Name="Update_Game_Button" Content="Update selected game" Click="Update_Game_Button_Click" Width="160" Height="32" Margin="0,40,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <Button x:Name="Add_Game_Button" Content="Add a new game" Click="Add_Game_Button_Click" Width="160" Height="32" Margin="0,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <Button x:Name="Delete_Game_Button" Content="Delete selected game" Click="Delete_Game_Button_Click" Width="160" Height="32" Margin="0,120,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <Button x:Name="Load_Image_Button" Content="Load selected game's image" Click="Load_Image_Button_Click" Width="160" Height="32" Margin="0,160,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <Button x:Name="Upload_Game_Image_Button" Content="Upload a game's box art" Click="Upload_Game_Image_Button_Click" Width="160" Height="32" Margin="0,200,0,0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
             </Grid>
-            <!--<GroupBox x:Name="Upload_Game_Image_Box" Width="220" Height="400" HorizontalAlignment="Right" Margin="0,0,12,0" Visibility="Collapsed">
-                <StackPanel Width="200" Height="372">
-                    
-                </StackPanel>
-            </GroupBox>-->
+            <GroupBox x:Name="Upload_Game_Image_Box" Header="Upload Image" Width="220" Height="400" HorizontalAlignment="Right" Margin="0,0,12,0" Visibility="Collapsed">
+                <Grid Width="200" Height="372">
+                    <Label Content="Game Id:" VerticalAlignment="Top" Height="26"/>
+                    <TextBlock x:Name="Upload_Game_Image_Game_Id" VerticalAlignment="Top" Margin="0,26,0,0" Height="26"/>
+                    <Label Content="Loaded Image:" VerticalAlignment="Top" Margin="0,52,0,0"/>
+                    <Image x:Name="Upload_Game_Image_Game_Image" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="0,78,0,0" Width="180" Height="180"/>
+                    <!--<TextBlock x:Name="Upload_Game_Image_Game_Image_Path" Visibility="Visible" Height="26" Width="200" VerticalAlignment="Top" Margin="0,268,0,0"/>-->
+                    <Button x:Name="Upload_Image_Clear_Image_Button" Content="Clear Image" Click="Upload_Image_Clear_Image_Button_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="6,268,0,0" Height="22" Width="72" />
+                    <Button x:Name="Upload_Image_Load_Image_Button" Content="Load Image" Click="Upload_Image_Load_Image_Button_Click" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,268,6,0" Width="72" Height="22"/>
+                    <Button x:Name="Upload_Image_Back_Button" Content="Back" Click="Upload_Image_Back_Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="6,0,0,6" Width="72" Height="22"/>
+                    <Button x:Name="Upload_Image_Submit_Button" Content="Submit" Click="Upload_Image_Submit_Button_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,6,6" Width="72" Height="22"/>
+                </Grid>
+            </GroupBox>
+            <GroupBox x:Name="Load_Game_Image_Box" Header="Game Image" Width="220" Height="400" HorizontalAlignment="Right" Margin="0,0,12,0" Visibility="Collapsed">
+                <Grid Width="200" Height="372">
+                    <Image x:Name="Load_Game_Image_Game_Image" Width="200" Height="300" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,6,0,0"></Image>
+					<Button x:Name="Load_Game_Image_Back_Button" Content="Back" Click="Back_Click" Width="80" Height="24" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="0,0,0,6"/>
+				</Grid>
+            </GroupBox>
             <GroupBox x:Name="Update_Game_Box" Header="Update Game" Width="220" Height="260" HorizontalAlignment="Right" Margin="0,0,12,0" Visibility="Collapsed">
                 <StackPanel Width="200" Height="260">
-                    <Label Content="Enter Game Id:"/>
-                    <TextBox x:Name="Update_Game_Game_Id"/>
-                    <Label Content="Enter New Game Name:"/>
+                    <Label Content="Game Id:"/>
+                    <TextBlock x:Name="Update_Game_Game_Id"/>
+                    <Label Content="Edit Game Name:"/>
                     <TextBox x:Name="Update_Game_Game_Name" MaxLength="100"/>
-                    <Label Content="Enter New Game Rating:"/>
+                    <Label Content="Edit Game Rating:"/>
                     <TextBox x:Name="Update_Game_Game_Rating"/>
-                    <Label Content="Enter New Game Description:"/>
+                    <Label Content="Edit Game Description:"/>
                     <TextBox x:Name="Update_Game_Game_Description" MaxLength="1000"/>
-                    <TextBlock Text="Empty fields will not change" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12,0,0"/>
+                    <TextBlock Text="Unchanged fields remain the same" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,12,0,0"/>
                     <Grid Width="180" Height="32">
                         <Button x:Name="Update_Game_Submit" Content="Submit" Click="Update_Game_Submit_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                         <Button x:Name="Update_Game_Back" Content="Back" Click="Back_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
@@ -74,11 +92,11 @@
                     <TextBox x:Name="Delete_Game_Game_Id" Margin="4,0,4,0"/>
                     <Grid Width="180" Height="32">
                         <Button x:Name="Delete_Game_Submit" Content="Submit" Click="Delete_Game_Submit_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
-                        <Button x:Name="Detele_Game_Back" Content="Back" Click="Back_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                        <Button x:Name="Delete_Game_Back" Content="Back" Click="Back_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                     </Grid>
                 </StackPanel>
             </GroupBox>
-            <GroupBox x:Name="Get_Detailed_Info_Box" Header="Get Detailed Info" Width="220" Height="100" HorizontalAlignment="Right" Margin="0,0,12,0" Visibility="Collapsed">
+            <!--<GroupBox x:Name="Get_Detailed_Info_Box" Header="Get Detailed Info" Width="220" Height="100" HorizontalAlignment="Right" Margin="0,0,12,0" Visibility="Collapsed">
                 <StackPanel Width="200" Height="80">
                     <Label Content="Enter game id:"/>
                     <TextBox x:Name="Get_Detailed_Info_Game_Id" Margin="4,0,4,0"/>
@@ -87,9 +105,9 @@
                         <Button x:Name="Get_Detailed_Info_Back" Content="Back" Click="Back_Click" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
                     </Grid>
                 </StackPanel>
-            </GroupBox>
+            </GroupBox>-->
         </Grid>
-        <Grid x:Name="Detailed_Info" Visibility="Collapsed">
+        <!--<Grid x:Name="Detailed_Info" Visibility="Collapsed" Grid.ColumnSpan="2">
             <StackPanel x:Name="Detailed_Game_Info" Width="360" Height="400" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0">
                 <Label Content="Game Name:"/>
                 <TextBlock x:Name="Detailed_Game_Info_Name"/>
@@ -102,6 +120,6 @@
             </StackPanel>
             <Image x:Name="Detailed_Game_Info_Picture" Width="400" Height="300" HorizontalAlignment="Right" Margin="0,0,8,0" VerticalAlignment="Stretch"/>
             <Button x:Name="Detailed_Info_Back" Content="Back" Click="Back_Click" Width="48" Height="24" Margin="0,0,24,18" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
-        </Grid>
+        </Grid>-->
     </Grid>
 </Window>

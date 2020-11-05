@@ -5,6 +5,8 @@ using System.Net;
 using System.Text.Json;
 using System.Collections.ObjectModel;
 using System.Net.Http;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace Frontend
 {
@@ -37,30 +39,58 @@ namespace Frontend
             }
             return games;
         }
-        public async void AddGame(GameInfo game)
+        public async Task<int> AddGame(GameInfo game)
         {
             using (HttpClient httpClient = new HttpClient())
             {
                 string AddGameUrl = BaseUrl + "AddGame";
                 var dataToSend = new StringContent(JsonSerializer.Serialize(game), Encoding.UTF8, "Application/json");
-                var jsonData = await httpClient.PostAsync(AddGameUrl, dataToSend);
+                var httpResponse = await httpClient.PostAsync(AddGameUrl, dataToSend);
+                return (int)httpResponse.StatusCode;
             }
         }
-        public async void UpdateGame(GameInfo game)
+        public async Task<int> UpdateGame(GameInfo game)
         {
             using (HttpClient httpClient = new HttpClient())
             {
                 string UpdateGameUrl = BaseUrl + "UpdateGame";
                 var dataToSend = new StringContent(JsonSerializer.Serialize(game), Encoding.UTF8, "Application/json");
-                var jsonData = await httpClient.PutAsync(UpdateGameUrl, dataToSend);
+                var httpResponse = await httpClient.PutAsync(UpdateGameUrl, dataToSend);
+                return (int)httpResponse.StatusCode;
             }
         }
-        public async void DeleteGame(int Id)
+        public async Task<int> DeleteGame(int Id)
         {
             using (HttpClient httpClient = new HttpClient())
             {
                 string DeleteGameUrl = BaseUrl + "DeleteGame/" + Id;
-                var jsonData = await httpClient.DeleteAsync(DeleteGameUrl);
+                var httpResponse = await httpClient.DeleteAsync(DeleteGameUrl);
+                return (int)httpResponse.StatusCode;
+            }
+        }
+        public async Task<HttpResponseMessage> GetGameImage(int Id)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string GetGameImageUrl = BaseUrl + "GetGameImage/" + Id;
+                var httpResponse = await httpClient.GetAsync(GetGameImageUrl);
+                return httpResponse;
+            }
+        }
+        public async Task<int> PostGameImage(int Id, string FilePath)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string PostGameImageUrl = BaseUrl + "SaveImage/" + Id;
+                using (MultipartFormDataContent content = new MultipartFormDataContent())
+                {
+                    //FileStream fileStream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
+                    var image = await File.ReadAllBytesAsync(FilePath);
+                    var imageName = Path.GetFileName(FilePath);
+                    content.Add(new StreamContent(new MemoryStream(image)), "Image", imageName);
+                    var httpResponse = await httpClient.PostAsync(PostGameImageUrl, content);
+                    return (int)httpResponse.StatusCode;
+                }
             }
         }
     }
