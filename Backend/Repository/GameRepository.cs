@@ -9,13 +9,14 @@ namespace Backend.Repository
     public class GameRepository : IGameRepository
     {
         private DatabaseService DBService;
+        /* Unnecessary and unused, so commented it out
         public  GameRepository()
         {
             DatabaseConfig DBConfig = new DatabaseConfig();
             DBConfig.Name = "Data source=./Database/GamesDB.sqlite";
             DBConfig.StructureFile = "./Database/DatabaseStructure.sql";
             DBService = new DatabaseService(DBConfig);
-        }
+        }*/
         public  GameRepository(DatabaseConfig DBConfig)
         {
             DBService = new DatabaseService(DBConfig);
